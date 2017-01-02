@@ -1,10 +1,13 @@
 import os
 from rllab.baselines.linear_feature_baseline import LinearFeatureBaseline
-from rllab.envs.mujoco.gather.swimmer_gather_env import SwimmerGatherEnv
+#from rllab.envs.mujoco.gather.swimmer_gather_env import SwimmerGatherEnv
+from rllab.envs.gym_env import GymEnv
+from rllab.envs.normalized_env import normalize
+
 os.environ["THEANO_FLAGS"] = "device=cpu"
 
 from rllab.policies.gaussian_mlp_policy import GaussianMLPPolicy
-from rllab.envs.normalized_env import NormalizedEnv
+#from rllab.envs.normalized_env import NormalizedEnv
 
 from sandbox.vime.algos.trpo_expl import TRPO
 from rllab.misc.instrument import stub, run_experiment_lite
@@ -16,8 +19,10 @@ stub(globals())
 seeds = range(2)
 etas = [0.0001]
 # SwimmerGather hierarchical task
-mdp_classes = [SwimmerGatherEnv]
-mdps = [NormalizedEnv(env=mdp_class())
+env = GymEnv("Pusher-v1")
+mdp_classes = [env]
+#mdp_classes = [SwimmerGatherEnv]
+mdps = [normalize(mdp_class)
         for mdp_class in mdp_classes]
 
 param_cart_product = itertools.product(
@@ -57,7 +62,8 @@ for mdp, eta, seed in param_cart_product:
         replay_pool_size=1000000,
         n_updates_per_sample=5000,
         second_order_update=True,
-        unn_n_hidden=[32],
+        #unn_n_hidden=[32],
+        unn_n_hidden=[100],
         unn_layers_type=[1, 1],
         unn_learning_rate=0.0001
     )

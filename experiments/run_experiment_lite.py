@@ -14,7 +14,8 @@ import datetime
 import dateutil.tz
 import ast
 import uuid
-import cPickle as pickle
+#import cPickle as pickle
+import pickle
 import base64
 
 
@@ -54,6 +55,7 @@ def run_experiment(argv):
                         help='Random seed for numpy')
     parser.add_argument('--args_data', type=str,
                         help='Pickled data for stub objects')
+    parser.add_argument('--use_cloudpickle False', type=ast.literal_eval, default=False)
 
     args = parser.parse_args(argv[1:])
 

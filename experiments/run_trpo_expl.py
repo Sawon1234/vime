@@ -12,14 +12,20 @@ from rllab.policies.gaussian_mlp_policy import GaussianMLPPolicy
 from sandbox.vime.algos.trpo_expl import TRPO
 from rllab.misc.instrument import stub, run_experiment_lite
 import itertools
+import argparse
 
 stub(globals())
+
+parser = argparse.ArgumentParser(description='Run trpo algorithm')
+parser.add_argument('environment', metavar='env',
+        help='environment to run on')
+args = parser.parse_args()
 
 # Param ranges
 seeds = range(2)
 etas = [0.0001]
 # SwimmerGather hierarchical task
-env = GymEnv("Pusher-v1")
+env = GymEnv(args.environment)
 mdp_classes = [env]
 #mdp_classes = [SwimmerGatherEnv]
 mdps = [normalize(mdp_class)

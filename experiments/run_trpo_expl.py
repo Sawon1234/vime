@@ -53,7 +53,7 @@ for mdp, eta, seed in param_cart_product:
         baseline=baseline,
         batch_size=batch_size,
         whole_paths=True,
-        max_path_length=500,
+        max_path_length=100,
         n_itr=10000,
         step_size=0.01,
         eta=eta,

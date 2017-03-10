@@ -17,12 +17,17 @@ import argparse
 stub(globals())
 
 parser = argparse.ArgumentParser(description='Run trpo algorithm')
-parser.add_argument('environment', metavar='env',
+parser.add_argument('environment', type=str, metavar='env',
         help='environment to run on')
+parser.add_argument('seed', type=int, help='seed')
+parser.add_argument('-gpu', type=str, default='0', help='the gpu to use 0, 1')
 args = parser.parse_args()
 
+os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
+
 # Param ranges
-seeds = range(2)
+# seeds = range(2)
+seeds = [int(args.seed), int(args.seed)+1]
 etas = [0.0001]
 # SwimmerGather hierarchical task
 env = GymEnv(args.environment)
